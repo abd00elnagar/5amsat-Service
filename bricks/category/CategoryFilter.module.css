@@ -1,0 +1,41 @@
+.filterContainer {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.select {
+  appearance: none;
+  background: #fff url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 1rem center;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  color: #1a1a1a;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  min-width: 180px;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.select:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.select:focus {
+  border-color: #0070f3;
+  box-shadow: 0 0 0 3px rgba(0,112,243,0.1);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .filterContainer {
+    justify-content: stretch;
+  }
+  
+  .select {
+    width: 100%;
+    min-width: unset;
+  }
+} 

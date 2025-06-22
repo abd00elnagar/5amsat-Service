@@ -29,8 +29,7 @@ export default function HomeNavBar() {
     <nav className={styles.navbar}>
       <div className={styles.navContent}>
         <a className={styles.leftSection} href="/">
-          <img src={config.logoUrl || '/logo.png'} alt={config.marketName || 'Logo'} className={styles.logoImage} />
-          <h3>{config.marketName}</h3>
+          <h2>{config.marketName}</h2>
         </a>
         <button className={styles.hamburger} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
           <span className={styles.bar}></span>
@@ -50,12 +49,6 @@ export default function HomeNavBar() {
           >
             Contact Us
           </Link>
-          <div className={styles.userSection}>
-            {/* Placeholder for user avatar or login button */}
-            <Link href="/login" className={styles.userButton}>
-              {session ? 'Account' : 'Login'}
-            </Link>
-          </div>
         </div>
       </div>
     </nav>

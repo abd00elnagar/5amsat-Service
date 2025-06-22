@@ -31,17 +31,39 @@ function validateProductData(data) {
 
 // ========== Products Services ==========
 
-export async function getAllProducts() {
-    const { data, error } = await supabase
+export async function getAllProducts({ page = 1, limit = 20, random = false } = {}) {
+    let query = supabase
         .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('*');
+
+    if (random) {
+        // For random ordering, we'll use a random id range
+        query = query.order('id', { ascending: Math.random() > 0.5 });
+    } else {
+        query = query.order('created_at', { ascending: false });
+    }
+
+    // Add pagination
+    const start = (page - 1) * limit;
+    query = query.range(start, start + limit - 1);
+
+    const { data, error } = await query;
 
     if (error) {
         console.error('Error fetching products:', error);
         throw error;
     }
-    return data;
+
+    // Get total count for pagination
+    const { count: totalCount } = await supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true });
+
+    return {
+        products: data,
+        totalCount,
+        hasMore: start + limit < totalCount
+    };
 }
 
 export async function getProductById(id) {

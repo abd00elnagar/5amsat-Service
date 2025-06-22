@@ -1,12 +1,33 @@
 .navbar {
-  background: rgba(26,26,26,0.92);
-  color: white;
-  position: sticky;
+  --navbar-height: 72px;
+  height: var(--navbar-height);
+  background: rgb(255, 255, 255);
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
-  border-bottom: 1px solid #333;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+/* Remove hover opacity change since we're going fully opaque */
+.navbar:not(:hover) {
+  background: rgb(255, 255, 255);
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(56, 189, 248, 0) 0%,
+    rgba(56, 189, 248, 0.2) 50%,
+    rgba(56, 189, 248, 0) 100%
+  );
 }
 
 .navContent {
@@ -16,70 +37,70 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .leftSection {
   display: flex;
   text-decoration: none;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
-.logoImage {
-  height: 50px; /* Enlarged height */
-  width: auto; /* Maintain aspect ratio */
+.leftSection h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0070f3 0%, #00a3ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .rightSection {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  transition: right 0.3s;
-}
-
-.userSection {
-  margin-left: 1.5rem;
-}
-
-.userButton {
-  background: linear-gradient(90deg, #0070f3, #00c6ff);
-  color: #fff;
-  padding: 0.45rem 1.1rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.05rem;
-  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-}
-
-.userButton:hover {
-  background: linear-gradient(90deg, #0051b3, #0070f3);
-  box-shadow: 0 4px 16px rgba(0,112,243,0.16);
-  transform: translateY(-2px) scale(1.04);
+  gap: 2rem;
 }
 
 .navLink {
   text-decoration: none;
-  color: #e5e5e5;
+  color: #1a1a1a;
   font-weight: 500;
-  font-size: 1.1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
   position: relative;
 }
 
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #38bdf8;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
 .navLink:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
+  color: #0070f3;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
 }
 
 .active {
   color: #0070f3;
-  background: rgba(0,112,243,0.08);
-  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
-  font-weight: 700;
+}
+
+.active::after {
+  transform: scaleX(1);
 }
 
 .hamburger {
@@ -89,62 +110,70 @@
   align-items: center;
   width: 40px;
   height: 40px;
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
-  margin-left: 1rem;
-  z-index: 1100;
+  padding: 0;
+  gap: 6px;
 }
 
 .bar {
   width: 24px;
-  height: 3px;
-  background: #fff;
-  margin: 3px 0;
+  height: 2px;
+  background: #1a1a1a;
   border-radius: 2px;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 900px) {
-  .navContent {
-    padding: 0.75rem 1rem;
-  }
+.hamburger:hover .bar {
+  background: #0070f3;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .navContent {
-    padding: 0.75rem 0.5rem;
+    padding: 1rem;
   }
-  .logoImage {
-    height: 36px;
-  }
+
   .hamburger {
     display: flex;
+    margin-left: 1rem;
   }
+
   .rightSection {
     position: fixed;
     top: 0;
-    right: -100vw;
+    right: -100%;
     height: 100vh;
-    width: 70vw;
-    background: rgba(26,26,26,0.98);
+    width: 250px;
+    background: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     flex-direction: column;
     align-items: flex-start;
-    padding: 5rem 2rem 2rem 2rem;
-    gap: 2rem;
-    box-shadow: -2px 0 16px rgba(0,0,0,0.12);
-    transition: right 0.3s cubic-bezier(.4,2,.6,1);
-    z-index: 1200;
+    padding: 5rem 2rem;
+    gap: 1.5rem;
+    transition: right 0.3s ease;
   }
+
   .rightSection.open {
     right: 0;
   }
-  .userSection {
-    margin-left: 0;
+
+  .navLink {
+    font-size: 1.1rem;
     width: 100%;
   }
-  .userButton {
-    width: 100%;
-    text-align: left;
+
+  .navLink::after {
+    display: none;
+  }
+
+  .navLink:hover {
+    background: rgba(56, 189, 248, 0.1);
+    transform: translateX(4px);
+  }
+
+  .active {
+    background: rgba(56, 189, 248, 0.1);
   }
 } 

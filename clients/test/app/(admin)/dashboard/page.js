@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { getAllProducts, deleteProduct } from '@/lib/data_services';
+import { formatPrice } from '@/lib/utils';
 import styles from './dashboard.module.css';
 
 export default function Dashboard() {
@@ -30,7 +31,8 @@ export default function Dashboard() {
     }
   };
 
-  const handleDelete = async (productId) => {
+  const handleDelete = async (e, productId) => {
+    e.stopPropagation(); // Prevent card click when clicking delete
     setProductToDelete(productId);
     setShowDeleteConfirm(true);
   };
@@ -51,6 +53,10 @@ export default function Dashboard() {
     setProductToDelete(null);
   };
 
+  const handleCardClick = (productId) => {
+    router.push(`/dashboard/products/${productId}`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -65,24 +71,39 @@ export default function Dashboard() {
 
       <div className={styles.productGrid}>
         {products.map((product) => (
-          <div key={product.id} className={styles.productCard}>
+          <div 
+            key={product.id} 
+            className={styles.productCard}
+            onClick={() => handleCardClick(product.id)}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => e.key === 'Enter' && handleCardClick(product.id)}
+          >
             <img 
-              src={product.image} 
+              src={product.image || '/placeholder.png'} 
               alt={product.name} 
               className={styles.productImage}
             />
             <div className={styles.productInfo}>
               <h3>{product.name}</h3>
+              <div className={styles.price}>{formatPrice(product.price)}</div>
+              {product.category && (
+                <span className={styles.category}>{product.category}</span>
+              )}
+              <div className={styles.stock}>Stock: {product.quantity}</div>
               <div className={styles.actions}>
                 <button 
                   className={styles.updateButton}
-                  onClick={() => router.push(`/dashboard/edit/${product.id}`)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/dashboard/edit/${product.id}`);
+                  }}
                 >
                   Update
                 </button>
                 <button 
                   className={styles.deleteButton}
-                  onClick={() => handleDelete(product.id)}
+                  onClick={(e) => handleDelete(e, product.id)}
                 >
                   Delete
                 </button>

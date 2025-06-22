@@ -22,25 +22,15 @@ export default function Footer() {
         <div className={styles.grid}>
 
           <div className={styles.column}>
-            <h4>Links</h4>
-            <ul>
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/dashboard">Dashboard</Link></li>
-              {session && (
-                <li>
-                  <button onClick={handleSignOut} className={styles.logoutButton}>
-                    Sign Out
-                  </button>
-                </li>
-              )}
-            </ul>
+            <h1 className={styles.brandName}>{config.marketName}</h1>
+            <p className={styles.description}>{config.brandDescription}</p>
           </div>
           
           <div className={styles.column}>
             <h4>Contact Us</h4>
             <ul>
               <li>Email: {config.contactEmail}</li>
-              <hr />
+              <div className={styles.divider} />
               <li className={styles.flexItem}>
                 <a href={`tel:${config.contactPhone1?.replace(/\s+/g, '')}`}>{config.contactPhone1}</a>
                 <div className={styles.socialLinks}>
@@ -54,7 +44,7 @@ export default function Footer() {
                   </a>
                 </div>
               </li>
-              <hr />
+              <div className={styles.divider} />
               <li className={styles.flexItem}>
                 <a href={`tel:${config.contactPhone2?.replace(/\s+/g, '')}`}>{config.contactPhone2}</a>
                 <div className={styles.socialLinks}>
@@ -71,11 +61,21 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className={styles.column}>
-            <h1 className={styles.brandName}>{config.marketName}</h1>
-            <p className={styles.description}>{config.brandDescription}</p>
-          </div>
 
+          <div className={styles.column}>
+            <h4>Links</h4>
+            <ul>
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/dashboard">Dashboard</Link></li>
+              {session && (
+                <li>
+                  <button onClick={handleSignOut} className={styles.logoutButton}>
+                    Sign Out
+                  </button>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
 
         <div className={styles.bottom}>
