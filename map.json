@@ -1,0 +1,83 @@
+{
+  "main": {
+    "web user": [
+      "products page"
+    ],
+    "web admin": [
+      "dashboard for Management",
+      "sign in and out to the dashboard",
+      "database Management"
+    ],
+    "our services": [
+      "deployment",
+      "1 year free maintenance"
+    ],
+    "price": 50
+  },
+  "additions": {
+    "user auth": {
+      "google": {
+        "fearues": [
+          "signin",
+          "signout",
+          "more secure admin authorization"
+        ],
+        "price": 10
+      },
+      "clerck": {
+        "fearues": [
+          "signin",
+          "signout",
+          "more secure admin authorization",
+          "monitoring the users data",
+          "more professional data management",
+          "authenticator app integration",
+          "less load on the server"
+        ],
+        "price": 15
+      }
+    },
+    "searchbar": {
+      "features": [
+        "searchbar implementation in every page",
+        "easier product finding",
+        "better user experiece"
+      ],
+      "price": 5
+    },
+    "category": {
+      "features": [
+        "categories table in the database",
+        "classifying the products into categories",
+        "category management in the dashboard",
+        "filter products by category"
+      ],
+      "price": 15,
+      "delay": "1 day"
+    },
+    "redesign": {
+      "features": [
+        "make a totally new UI for the web app",
+        "customize your pages and the look of your web app"
+      ],
+      "price": 25,
+      "delay": " 2 days"
+    },
+    "orders management system": {
+      "features": [
+        "add orders functionality in the dashboard ",
+        "manage the sales and monitor te most sold items .. etc"
+      ],
+      "price": 25,
+      "delay": " 1 days"
+    },
+    "sparated dashboard": {
+      "features": [
+        "separated website for the admin dashboard ",
+        "manage everything in a secure place far from your client",
+        "reduces the traffic on the origional website so more users can access it"
+      ],
+      "price": 15
+    }
+  }
+}

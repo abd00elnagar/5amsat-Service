@@ -1,0 +1,14 @@
+{
+  "name": "clerk-auth-brick",
+  "version": "1.0.0",
+  "description": "Clerk authentication brick for Khamsat service",
+  "dependencies": {
+    "@clerk/nextjs": "^4.29.0",
+    "@clerk/themes": "^1.7.9"
+  },
+  "peerDependencies": {
+    "next": ">=13.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+} 

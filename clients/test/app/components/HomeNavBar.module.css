@@ -1,0 +1,150 @@
+.navbar {
+  background: rgba(26,26,26,0.92);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.navContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftSection {
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  gap: 2rem;
+}
+
+.logoImage {
+  height: 50px; /* Enlarged height */
+  width: auto; /* Maintain aspect ratio */
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: right 0.3s;
+}
+
+.userSection {
+  margin-left: 1.5rem;
+}
+
+.userButton {
+  background: linear-gradient(90deg, #0070f3, #00c6ff);
+  color: #fff;
+  padding: 0.45rem 1.1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.userButton:hover {
+  background: linear-gradient(90deg, #0051b3, #0070f3);
+  box-shadow: 0 4px 16px rgba(0,112,243,0.16);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.navLink {
+  text-decoration: none;
+  color: #e5e5e5;
+  font-weight: 500;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.active {
+  color: #0070f3;
+  background: rgba(0,112,243,0.08);
+  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
+  font-weight: 700;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 1rem;
+  z-index: 1100;
+}
+
+.bar {
+  width: 24px;
+  height: 3px;
+  background: #fff;
+  margin: 3px 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 900px) {
+  .navContent {
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .navContent {
+    padding: 0.75rem 0.5rem;
+  }
+  .logoImage {
+    height: 36px;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .rightSection {
+    position: fixed;
+    top: 0;
+    right: -100vw;
+    height: 100vh;
+    width: 70vw;
+    background: rgba(26,26,26,0.98);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 2rem 2rem 2rem;
+    gap: 2rem;
+    box-shadow: -2px 0 16px rgba(0,0,0,0.12);
+    transition: right 0.3s cubic-bezier(.4,2,.6,1);
+    z-index: 1200;
+  }
+  .rightSection.open {
+    right: 0;
+  }
+  .userSection {
+    margin-left: 0;
+    width: 100%;
+  }
+  .userButton {
+    width: 100%;
+    text-align: left;
+  }
+} 
