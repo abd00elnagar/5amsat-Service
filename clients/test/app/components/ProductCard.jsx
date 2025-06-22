@@ -41,7 +41,7 @@ export default function ProductCard({ product }) {
                 title={`Available in ${color}`}
               />
             ))}
-          </div>
+      </div>
         )}
       </Link>
       <div className={styles.content}>
@@ -65,7 +65,7 @@ export default function ProductCard({ product }) {
           <div className={styles.price}>{formatPrice(product.price)}</div>
           {product.category && (
             <span className={styles.categoryBadge}>{product.category}</span>
-          )}
+        )}
         </div>
         <Link href={`/products/${product.id}`} className={styles.button}>
           View Details

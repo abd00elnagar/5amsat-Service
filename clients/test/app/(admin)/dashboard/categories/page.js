@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import styles from './categories.module.css';
 import { getAllCategories, createCategory, deleteCategory } from '@/lib/data_services';
-import { MdDeleteOutline } from 'react-icons/md';
+import { MdDeleteOutline, MdAdd } from 'react-icons/md';
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -62,74 +62,70 @@ export default function CategoriesPage() {
   const cancelDelete = () => setConfirmDeleteId(null);
 
   return (
-    <div className={styles.modernContainer}>
-      <div className={styles.headerRow}>
-        <h1 className={styles.title}>Categories</h1>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Categories</h1>
         <button
-          className={styles.fab}
+          className={styles.addButton}
           onClick={() => setShowAddModal(true)}
-          title="Add Category"
         >
-          +
+          <MdAdd /> Add Category
         </button>
       </div>
+
       {error && <div className={styles.error}>{error}</div>}
+      
       {loading ? (
         <div className={styles.loading}>Loading categories...</div>
       ) : categories.length === 0 ? (
-        <div className={styles.emptyMsg}>No categories found. Click + to add one.</div>
+        <div className={styles.empty}>No categories found</div>
       ) : (
         <div className={styles.grid}>
           {categories.map(cat => (
             <div key={cat.id} className={styles.card}>
-              <div className={styles.cardContent}>
-                <span className={styles.cardName}>{cat.name}</span>
-              </div>
+              <span>{cat.name}</span>
               <button
-                className={styles.deleteBtn}
                 onClick={() => handleDelete(cat.id)}
+                className={styles.deleteButton}
                 title="Delete"
-                aria-label="Delete category"
               >
-                <MdDeleteOutline size={35} color="#888" />
+                <MdDeleteOutline size={25}/>
               </button>
             </div>
           ))}
         </div>
       )}
+
       {showAddModal && (
-        <div className={styles.modalOverlay} onClick={() => setShowAddModal(false)}>
-          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+        <div className={styles.modal} onClick={() => setShowAddModal(false)}>
+          <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
             <h2>Add Category</h2>
-            <form onSubmit={handleSubmit} className={styles.form}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name">Category Name *</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={e => setFormData({ name: e.target.value })}
-                  required
-                  className={styles.input}
-                  autoFocus
-                />
-              </div>
-              <div className={styles.formActions}>
-                <button type="submit" className={styles.saveButton}>Add</button>
-                <button type="button" className={styles.cancelButton} onClick={() => setShowAddModal(false)}>Cancel</button>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={e => setFormData({ name: e.target.value })}
+                placeholder="Category name"
+                required
+                autoFocus
+              />
+              <div className={styles.modalActions}>
+                <button type="button" onClick={() => setShowAddModal(false)}>Cancel</button>
+                <button type="submit">Add</button>
               </div>
             </form>
           </div>
         </div>
       )}
+
       {confirmDeleteId && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h3>Confirm Deletion</h3>
-            <p>Are you sure you want to delete this category?</p>
-            <div className={styles.formActions}>
-              <button className={styles.saveButton} onClick={confirmDelete}>Yes, Delete</button>
-              <button className={styles.cancelButton} onClick={cancelDelete}>Cancel</button>
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2>Delete Category</h2>
+            <p>Are you sure?</p>
+            <div className={styles.modalActions}>
+              <button onClick={cancelDelete}>Cancel</button>
+              <button onClick={confirmDelete}>Delete</button>
             </div>
           </div>
         </div>

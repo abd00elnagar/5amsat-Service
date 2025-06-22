@@ -2,7 +2,7 @@ import { getProductById } from '@/lib/data_services';
 import { config } from '@/lib/config';
 
 export async function generateMetadata({ params }) {
-  const { id } = params;
+  const { id } = await params;
   try {
     const product = await getProductById(id);
     return {

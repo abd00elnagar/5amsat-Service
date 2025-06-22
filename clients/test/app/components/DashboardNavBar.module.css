@@ -1,29 +1,56 @@
 .navbar {
-  background-color: #000000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0.75rem 0;
-  position: sticky;
+  --navbar-height: 72px;
+  height: var(--navbar-height);
+  background: rgb(255, 255, 255);
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    rgba(56, 189, 248, 0) 0%,
+    rgba(56, 189, 248, 0.2) 50%,
+    rgba(56, 189, 248, 0) 100%
+  );
 }
 
 .container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .logo {
   display: flex;
-  align-items: center;
   text-decoration: none;
-  color: #afafaf;
-  gap: 0.5rem;
-  flex-direction: row-reverse;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.logo h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0070f3 0%, #00a3ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .logoImage {
@@ -32,15 +59,59 @@
 }
 
 .menuContainer {
-  position: relative;
   display: flex;
   align-items: center;
+  position: relative;
+  margin-left: auto;
+  gap: 2rem;
 }
 
 /* Desktop Navigation */
 .desktopNav {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #38bdf8;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.navLink:hover {
+  color: #0070f3;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+.navLink.active {
+  color: #0070f3;
+}
+
+.navLink.active::after {
+  transform: scaleX(1);
 }
 
 /* Mobile Menu Button */
@@ -49,9 +120,9 @@
   align-items: center;
   gap: 0.5rem;
   background: transparent;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  color: #1a1a1a;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   cursor: pointer;
   padding: 8px 12px;
   font-size: 0.9rem;
@@ -59,7 +130,7 @@
 }
 
 .menuButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .menuIcon {
@@ -70,18 +141,40 @@
   transform: rotate(180deg);
 }
 
-/* Navigation Links */
-.navLink {
+/* Mobile Navigation */
+.menuDropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 200px;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+              0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.menuDropdown .navLink {
   text-decoration: none;
-  color: #ffffff;
+  color: #1a1a1a;
   font-weight: 500;
-  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  padding: 10px 12px;
   border-radius: 6px;
   transition: all 0.2s ease;
-  white-space: nowrap;
+  width: 100%;
+}
+
+.menuDropdown .navLink:hover {
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.menuDropdown .navLink.active {
+  background: rgba(56, 189, 248, 0.1);
+  color: #0070f3;
 }
 
 .navIcon {
@@ -90,16 +183,11 @@
   display: none;
 }
 
-.navLink:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
 
-.navLink.active {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Mobile Styles */
-@media (max-width: 640px) {
   .desktopNav {
     display: none;
   }
@@ -108,24 +196,8 @@
     display: flex;
   }
 
-  .mobileNav {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: #000000;
-    border-radius: 8px;
-    padding: 8px;
-    min-width: 200px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .mobileNav .navLink {
-    padding: 10px 12px;
-    font-size: 0.95rem;
+  .logo h3 {
+    font-size: 1.3rem;
   }
 
   .navIcon {

@@ -69,24 +69,24 @@ export default function Home() {
     );
   }
 
-  return (
-    <main className={styles.main}>
-      <section className={styles.heroSection}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>{config.marketName || 'Welcome to Our Store'}</h1>
-          <p className={styles.heroTagline}>{config.brandDescription || 'Discover our best products and services.'}</p>
-          <div className={styles.heroActions}>
+    return (
+      <main className={styles.main}>
+        <section className={styles.heroSection}>
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>{config.marketName || 'Welcome to Our Store'}</h1>
+            <p className={styles.heroTagline}>{config.brandDescription || 'Discover our best products and services.'}</p>
+            <div className={styles.heroActions}>
             <a href="#products" className={styles.ctaButton}>Explore Products</a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       <div id="products" className={styles.container}>
         <FilterSection onSearch={handleSearch} />
-        {!products || products.length === 0 ? (
-          <p className={styles.noProducts}>
+          {!products || products.length === 0 ? (
+            <p className={styles.noProducts}>
             {loading ? 'Loading products...' : 'No products available at the moment.'}
-          </p>
-        ) : (
+            </p>
+          ) : (
           <>
             <div className={styles.grid}>
               {products.map((product) => (
@@ -105,8 +105,8 @@ export default function Home() {
               </div>
             )}
           </>
-        )}
-      </div>
-    </main>
-  );
+          )}
+        </div>
+      </main>
+    );
 }

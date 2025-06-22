@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import config from '@/lib/config';
 import styles from './DashboardNavBar.module.css';
 
 export default function DashboardNavBar() {
@@ -11,7 +13,11 @@ export default function DashboardNavBar() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link href="/dashboard" className={styles.logo}>
-          <img src="/logo.png" alt="UNATEED Logo" className={styles.logoImage} />
+          <img 
+            src={config.logoUrl} 
+            alt={`${config.marketName || 'Logo'}`} 
+            className={styles.logoImage} 
+          />
           <h3>UNATEED</h3>
         </Link>
 

@@ -10,11 +10,11 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <>
-      <HomeNavBar />
-      <main className="min-h-screen">
-        {children}
-      </main>
-      <Footer />
+        <HomeNavBar />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Footer />
     </>
   );
 }

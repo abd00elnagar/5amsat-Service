@@ -10,16 +10,14 @@ export const metadata = {
   description: 'Admin dashboard for managing products',
 };
 
-export default function RootLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <>
         <DashboardNavBar />
         <main className="min-h-screen">
           {children}
         </main>
         <Footer />
-      </body>
-    </html>
+    </>
   );
 }

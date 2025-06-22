@@ -28,7 +28,6 @@ export default function DashboardNavBar() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link href="/dashboard" className={styles.logo}>
-          <img src={config.logoUrl || '/logo.png'} alt={config.marketName + ' Logo'} className={styles.logoImage} />
           <h3>{config.marketName}</h3>
         </Link>
 
@@ -49,7 +48,7 @@ export default function DashboardNavBar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Navigation */}
           <button 
             className={`${styles.menuButton} ${isMenuOpen ? styles.menuOpen : ''}`}
             onClick={toggleMenu}
@@ -68,28 +67,18 @@ export default function DashboardNavBar() {
             </svg>
           </button>
 
-          {/* Mobile Navigation Dropdown */}
           {isMenuOpen && (
-            <div className={styles.mobileNav}>
+            <div className={styles.menuDropdown}>
               <Link 
                 href="/dashboard" 
                 className={`${styles.navLink} ${pathname === '/dashboard' ? styles.active : ''}`}
               >
-                <svg className={styles.navIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7" />
-                  <rect x="14" y="3" width="7" height="7" />
-                  <rect x="3" y="14" width="7" height="7" />
-                  <rect x="14" y="14" width="7" height="7" />
-                </svg>
                 Products
               </Link>
               <Link 
                 href="/dashboard/categories" 
                 className={`${styles.navLink} ${pathname === '/dashboard/categories' ? styles.active : ''}`}
               >
-                <svg className={styles.navIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 6h18M3 12h18M3 18h18" />
-                </svg>
                 Categories
               </Link>
             </div>

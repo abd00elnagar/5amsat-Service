@@ -161,21 +161,46 @@
 }
 
 .colorSection {
-  margin: 20px 0;
+  margin: 1.5rem 0;
+}
+
+.colorHeader {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .colorLabel {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #333;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.originalImageBtn {
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #000000;
+  border-radius: var(--radius-md);
+  color: #000000;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.originalImageBtn:hover {
+  background: #f1f1f1;
+  transform: translateY(-1px);
+}
+
+.originalImageBtn.active {
+  background: #000000;
+  color: white;
+  border-color: #000000;
 }
 
 .colorButtons {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
@@ -215,7 +240,6 @@
 .productName {
   font-size: 2.4rem;
   font-weight: 800;
-  color: #1a1a1a;
   margin: 0;
   line-height: 1.2;
   color: #000000;
@@ -223,7 +247,7 @@
 
 .productPrice {
   font-size: 2rem;
-  color: #0070f3;
+  color: #000000;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -237,7 +261,7 @@
 }
 
 .productDesc {
-  color: #4b5563;
+  color: #333333;
   font-size: 1.1rem;
   line-height: 1.7;
   margin: 0.5rem 0;
@@ -273,8 +297,8 @@
 
 .category {
   display: inline-block;
-  background: #f1f5f9;
-  color: #0070f3;
+  background: #f1f1f1;
+  color: #000000;
   padding: 0.4rem 1rem;
   border-radius: 20px;
   font-size: 0.95rem;
@@ -305,21 +329,21 @@
 }
 
 .buyButton {
-  background: linear-gradient(135deg, #0070f3 0%, #00c6ff 100%);
+  background: #000000;
   color: white;
-  box-shadow: 0 4px 14px rgba(0,112,243,0.25);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
 }
 
 .buyButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,112,243,0.35);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
 
 .backButton {
   padding: 0.75rem 1.5rem;
-  background-color: var(--primary-color, #007bff);
-  color: white;
-  border: none;
+  background-color: white;
+  color: #000000;
+  border: 1px solid #000000;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
@@ -329,6 +353,7 @@
 .backButton:hover {
   opacity: 0.9;
   transform: translateY(-2px);
+  background-color: #f1f1f1;
 }
 
 .whatsappButton {
@@ -338,9 +363,9 @@
 }
 
 .error {
-  color: #ef4444;
-  background: #fee2e2;
-  border: 1px solid #fecaca;
+  color: #000000;
+  background: #f1f1f1;
+  border: 1px solid #000000;
   border-radius: 12px;
   padding: 1.5rem;
   margin: 2rem auto;

@@ -1,101 +1,73 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getProductById, getRelatedProducts } from '@/lib/data_services';
-import { formatPrice } from '@/lib/utils';
-import { config } from '@/lib/config';
-import Loading from '@/app/components/Loading';
-import ProductCard from '@/app/components/ProductCard';
 import WhatsAppButton from '@/app/components/WhatsAppButton';
+import { config } from '@/lib/config';
 import styles from './page.module.css';
 
-export default function ProductDetailsUserPage({ params }) {
-  const { id } = params;
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState({ products: [], otherProducts: [] });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+export default function ProductDetailsPage() {
   const [selectedColor, setSelectedColor] = useState(null);
   const router = useRouter();
 
   // Get the current URL for sharing
   const productUrl = typeof window !== 'undefined' ? window.location.href : '';
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        const prod = await getProductById(id);
-        setProduct(prod);
-        
-        // Fetch related products
-        const related = await getRelatedProducts(id, prod.category);
-        setRelatedProducts(related);
-      } catch (err) {
-        console.error('Error loading product:', err);
-        setError('Failed to load product');
-      } finally {
-        setLoading(false);
+  // Sample product data
+  const product = {
+    name: "Modern Sofa",
+    description: "Elegant and comfortable modern sofa with premium fabric",
+    price: 1999.99,
+    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+    colors: {
+      "#FFFFFF": {
+        name: "White",
+        imageUrl: "https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea"
+      },
+      "#000000": {
+        name: "Black",
+        imageUrl: "https://images.unsplash.com/photo-1540574163026-643ea20ade25"
       }
     }
-    fetchData();
-  }, [id]);
+  };
 
-  if (loading) return <Loading />;
-  if (error) return <div className={styles.error}>⚠️ {error}</div>;
-  if (!product) return <div className={styles.error}>⚠️ Product not found</div>;
-
-  const hasRelatedProducts = relatedProducts.products.length > 0;
-  const hasOtherProducts = relatedProducts.otherProducts.length > 0;
-  const colors = product.colors ? 
-    (typeof product.colors === 'string' ? JSON.parse(product.colors) : product.colors) 
-    : null;
-  const currentImage = selectedColor && colors ? colors[selectedColor] : product.image;
+  const currentImage = selectedColor ? product.colors[selectedColor].imageUrl : product.image;
 
   return (
     <div className={styles.detailsContainer}>
       <div className={styles.card}>
         <div className={styles.imageSection}>
-          <img src={currentImage || '/placeholder.png'} alt={product.name} className={styles.productImage} />
+          <img src={currentImage} alt={product.name} className={styles.productImage} />
         </div>
         <div className={styles.infoSection}>
           <h1 className={styles.productName}>{product.name}</h1>
-          <div className={styles.productPrice}>{formatPrice(product.price)}</div>
+          <div className={styles.productPrice}>${product.price}</div>
           
-          {colors && Object.keys(colors).length > 0 && (
-            <div className={styles.colorSection}>
+          <div className={styles.colorSection}>
+            <div className={styles.colorHeader}>
               <span className={styles.colorLabel}>Available Colors:</span>
-              <div className={styles.colorButtons}>
-                {Object.entries(colors).map(([color, imageUrl]) => (
-                  <button
-                    key={color}
-                    className={`${styles.colorButton} ${selectedColor === color ? styles.selected : ''}`}
-                    style={{ backgroundColor: color }}
-                    onClick={() => setSelectedColor(color)}
-                    title={`View ${color} variant`}
-                  />
-                ))}
-              </div>
+              <button 
+                className={`${styles.originalImageBtn} ${!selectedColor ? styles.active : ''}`}
+                onClick={() => setSelectedColor(null)}
+                title="View original image"
+              >
+                Original Image
+              </button>
             </div>
-          )}
+            <div className={styles.colorButtons}>
+              {Object.entries(product.colors).map(([color, data]) => (
+                <button
+                  key={color}
+                  className={`${styles.colorButton} ${selectedColor === color ? styles.selected : ''}`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setSelectedColor(color)}
+                  title={`View ${data.name} variant`}
+                />
+              ))}
+            </div>
+          </div>
 
           <p className={styles.productDesc}>{product.description}</p>
-          
-          <div className={styles.infoGrid}>
-            <div className={styles.infoItem}>
-              <span className={styles.infoLabel}>Availability</span>
-              <span className={styles.infoValue}>
-                {product.quantity > 0 ? `${product.quantity} in stock` : 'Out of stock'}
-              </span>
-            </div>
-            {product.category && (
-              <div className={styles.infoItem}>
-                <span className={styles.infoLabel}>Category</span>
-                <span className={styles.category}>{product.category}</span>
-              </div>
-            )}
-          </div>
 
           <div className={styles.actions}>
             <button 
@@ -106,42 +78,11 @@ export default function ProductDetailsUserPage({ params }) {
             </button>
             <WhatsAppButton 
               phoneNumber={config.contactPhone1?.replace(/\D/g, '')}
-              message={`Hello! I'm interested in ${product.name} (${formatPrice(product.price)})${selectedColor ? ` in ${selectedColor} color` : ''}.\n\nProduct Link: ${productUrl}`}
+              message={`Hello! I'm interested in ${product.name} (${product.price})${selectedColor ? ` in ${product.colors[selectedColor].name} color` : ''}.\n\nProduct Link: ${productUrl}`}
               className={styles.whatsappButton}
             />
           </div>
         </div>
-      </div>
-
-      {/* Related Products Section */}
-      <div className={styles.relatedSection}>
-        {hasRelatedProducts && (
-          <>
-            <h2 className={styles.relatedTitle}>More from {product.category}</h2>
-            <div className={styles.relatedGrid}>
-              {relatedProducts.products.map((relatedProduct) => (
-                <ProductCard key={relatedProduct.id} product={relatedProduct} />
-              ))}
-            </div>
-          </>
-        )}
-
-        {!hasRelatedProducts && product.category && (
-          <p className={styles.noRelated}>
-            No more products available in {product.category}
-          </p>
-        )}
-
-        {hasOtherProducts && (
-          <>
-            <h2 className={styles.relatedTitle}>You might also like</h2>
-            <div className={styles.relatedGrid}>
-              {relatedProducts.otherProducts.map((otherProduct) => (
-                <ProductCard key={otherProduct.id} product={otherProduct} />
-              ))}
-            </div>
-          </>
-        )}
       </div>
     </div>
   );

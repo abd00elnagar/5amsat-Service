@@ -32,58 +32,84 @@ function validateProductData(data) {
 // ========== Products Services ==========
 
 export async function getAllProducts({ page = 1, limit = 20, random = false, search = '', category = '' } = {}) {
-    let query = supabase
-        .from('products')
-        .select('*');
+    try {
+        let query = supabase
+            .from('products')
+            .select('*');
 
-    // Apply search filter if provided
-    if (search) {
-        query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+        // Apply search filter if provided
+        if (search) {
+            query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+        }
+
+        // Apply category filter if provided
+        if (category) {
+            query = query.eq('category', category);
+        }
+
+        if (random) {
+            // For random ordering, we'll use a random id range
+            query = query.order('id', { ascending: Math.random() > 0.5 });
+        } else {
+            query = query.order('created_at', { ascending: false });
+        }
+
+        // Add pagination
+        const start = (page - 1) * limit;
+        query = query.range(start, start + limit - 1);
+
+        const { data, error: productsError, count } = await query;
+
+        if (productsError) {
+            console.error('Supabase error:', productsError);
+            return {
+                products: [],
+                totalCount: 0,
+                hasMore: false,
+                error: productsError
+            };
+        }
+
+        // Get total count for pagination with the same filters
+        let countQuery = supabase
+            .from('products')
+            .select('*', { count: 'exact', head: true });
+
+        if (search) {
+            countQuery = countQuery.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+        }
+
+        if (category) {
+            countQuery = countQuery.eq('category', category);
+        }
+
+        const { count: totalCount, error: countError } = await countQuery;
+
+        if (countError) {
+            console.error('Count error:', countError);
+            return {
+                products: data || [],
+                totalCount: data?.length || 0,
+                hasMore: false,
+                error: countError
+            };
+        }
+
+        return {
+            products: data || [],
+            totalCount,
+            hasMore: start + limit < totalCount,
+            error: null
+        };
+    } catch (err) {
+        console.error('Unexpected error in getAllProducts:', err);
+        return {
+            products: [],
+            totalCount: 0,
+            hasMore: false,
+            error: err
+        };
     }
-
-    // Apply category filter if provided
-    if (category) {
-        query = query.eq('category', category);
-    }
-
-    if (random) {
-        // For random ordering, we'll use a random id range
-        query = query.order('id', { ascending: Math.random() > 0.5 });
-    } else {
-        query = query.order('created_at', { ascending: false });
-    }
-
-    // Add pagination
-    const start = (page - 1) * limit;
-    query = query.range(start, start + limit - 1);
-
-    const { data, error } = await query;
-
-    if (error) {
-        console.error('Error fetching products:', error);
-        throw error;
-    }
-
-    // Get total count for pagination with the same filters
-    let countQuery = supabase
-        .from('products')
-        .select('*', { count: 'exact', head: true });
-
-    if (search) {
-        countQuery = countQuery.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
-    }
-
-    if (category) {
-        countQuery = countQuery.eq('category', category);
-    }
-
-    const { count: totalCount } = await countQuery;
-
-    return {
-        products: data,
-        totalCount,
-        hasMore: start + limit < totalCount
-    };
 }
 
 export async function getProductById(id) {

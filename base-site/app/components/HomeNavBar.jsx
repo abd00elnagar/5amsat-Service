@@ -28,7 +28,11 @@ export default function HomeNavBar() {
     <nav className={styles.navbar}>
       <div className={styles.navContent}>
         <a className={styles.leftSection} href="/">
-          <img src={config.logoUrl || "/logo.png"} alt={`${config.marketName || 'Logo'}`} className={styles.logoImage} />
+          <img 
+            src={config.logoUrl} 
+            alt={`${config.marketName || 'Logo'}`} 
+            className={styles.logoImage} 
+          />
           <h3>{config.marketName || 'Market'}</h3>
         </a>
         
