@@ -2,25 +2,25 @@
 
 /* Remove Cairo font and set Arial for English LTR */
 :root {
-  /* Modern Color System */
-  --primary: #0066FF;
-  --primary-dark: #0052CC;
-  --primary-light: #4D9AFF;
-  --primary-bg: #F0F7FF;
+  /* Modern Black & White Color System */
+  --primary: #000000;
+  --primary-dark: #1a1a1a;
+  --primary-light: #404040;
+  --primary-bg: #f5f5f5;
   
-  /* Neutral Colors - Clean and Modern */
-  --bg: #FAFBFC;
-  --card-bg: #FFFFFF;
-  --border: #E9ECEF;
-  --text-primary: #1A1F36;
-  --text-secondary: #4F566B;
-  --text-tertiary: #697386;
+  /* Neutral Colors - Clean Monochrome */
+  --bg: #ffffff;
+  --card-bg: #ffffff;
+  --border: #e0e0e0;
+  --text-primary: #000000;
+  --text-secondary: #404040;
+  --text-tertiary: #666666;
   
-  /* Accent Colors - Vibrant but Professional */
-  --success: #00B884;
-  --warning: #FF9800;
-  --error: #FF4D4D;
-  --info: #00B8D9;
+  /* Accent Colors - Grayscale */
+  --success: #1a1a1a;
+  --warning: #404040;
+  --error: #000000;
+  --info: #666666;
   
   /* Spacing System - Golden Ratio Based */
   --spacing-xs: 0.382rem;

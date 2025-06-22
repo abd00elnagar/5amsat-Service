@@ -31,10 +31,20 @@ function validateProductData(data) {
 
 // ========== Products Services ==========
 
-export async function getAllProducts({ page = 1, limit = 20, random = false } = {}) {
+export async function getAllProducts({ page = 1, limit = 20, random = false, search = '', category = '' } = {}) {
     let query = supabase
         .from('products')
         .select('*');
+
+    // Apply search filter if provided
+    if (search) {
+        query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+    }
+
+    // Apply category filter if provided
+    if (category) {
+        query = query.eq('category', category);
+    }
 
     if (random) {
         // For random ordering, we'll use a random id range
@@ -54,10 +64,20 @@ export async function getAllProducts({ page = 1, limit = 20, random = false } = 
         throw error;
     }
 
-    // Get total count for pagination
-    const { count: totalCount } = await supabase
+    // Get total count for pagination with the same filters
+    let countQuery = supabase
         .from('products')
         .select('*', { count: 'exact', head: true });
+
+    if (search) {
+        countQuery = countQuery.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+    }
+
+    if (category) {
+        countQuery = countQuery.eq('category', category);
+    }
+
+    const { count: totalCount } = await countQuery;
 
     return {
         products: data,
@@ -237,4 +257,47 @@ export async function deleteCategory(id) {
     }
 
     revalidatePath('/dashboard/categories');
+}
+
+export async function getRelatedProducts(productId, category, limit = 4) {
+    if (!category) return { products: [], otherProducts: [] };
+
+    // Get products in the same category
+    const { data: relatedProducts, error: relatedError } = await supabase
+        .from('products')
+        .select('*')
+        .eq('category', category)
+        .neq('id', productId)
+        .limit(limit);
+
+    if (relatedError) {
+        console.error('Error fetching related products:', relatedError);
+        throw relatedError;
+    }
+
+    // If we don't have enough related products, get some random products
+    if (!relatedProducts || relatedProducts.length < limit) {
+        const remainingCount = limit - (relatedProducts?.length || 0);
+        const { data: otherProducts, error: otherError } = await supabase
+            .from('products')
+            .select('*')
+            .neq('id', productId)
+            .neq('category', category)
+            .limit(remainingCount);
+
+        if (otherError) {
+            console.error('Error fetching other products:', otherError);
+            throw otherError;
+        }
+
+        return {
+            products: relatedProducts || [],
+            otherProducts: otherProducts || []
+        };
+    }
+
+    return {
+        products: relatedProducts,
+        otherProducts: []
+    };
 } 

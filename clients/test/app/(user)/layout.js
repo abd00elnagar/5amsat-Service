@@ -3,19 +3,18 @@ import Footer from "../components/Footer";
 import { config } from "@/lib/config";
 
 export const metadata = {
-  title: config.marketName ? `${config.marketName} | Company` : "Company",
+  title: `${config.marketName} | Home`,
+  description: config.brandDescription || 'Discover our best products and services.',
 };
 
 export default async function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <HomeNavBar />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <HomeNavBar />
+      <main className="min-h-screen">
+        {children}
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getAllProducts } from '@/lib/data_services';
 import ProductCard from '../components/ProductCard';
+import FilterSection from '../components/FilterSection';
 import styles from './page.module.css';
 import { config } from '@/lib/config';
 
@@ -15,14 +16,17 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({ query: '', category: '' });
 
-  const fetchProducts = async (currentPage) => {
+  const fetchProducts = async (currentPage, currentFilters = filters) => {
     try {
       setLoading(true);
       const { products: newProducts, hasMore: moreAvailable } = await getAllProducts({
         page: currentPage,
         limit: 20,
-        random: true
+        random: true,
+        search: currentFilters.query,
+        category: currentFilters.category
       });
 
       if (currentPage === 1) {
@@ -42,6 +46,12 @@ export default function Home() {
   useEffect(() => {
     fetchProducts(1);
   }, []);
+
+  const handleSearch = (newFilters) => {
+    setFilters(newFilters);
+    setPage(1);
+    fetchProducts(1, newFilters);
+  };
 
   const handleViewMore = () => {
     const nextPage = page + 1;
@@ -71,6 +81,7 @@ export default function Home() {
         </div>
       </section>
       <div id="products" className={styles.container}>
+        <FilterSection onSearch={handleSearch} />
         {!products || products.length === 0 ? (
           <p className={styles.noProducts}>
             {loading ? 'Loading products...' : 'No products available at the moment.'}

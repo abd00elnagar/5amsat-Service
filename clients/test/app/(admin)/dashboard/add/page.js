@@ -24,6 +24,8 @@ export default function AddProduct() {
   const fileInputRef = useRef(null);
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [colorVariants, setColorVariants] = useState([]);
+  const [newVariant, setNewVariant] = useState({ color: '', image: null });
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -63,6 +65,32 @@ export default function AddProduct() {
     }
   };
 
+  const handleAddVariant = async (e) => {
+    e.preventDefault();
+    if (!newVariant.color || !newVariant.image) return;
+
+    try {
+      // Upload the variant image
+      const imageUrl = await uploadFile(newVariant.image);
+      
+      // Add the new variant
+      setColorVariants([...colorVariants, { 
+        color: newVariant.color, 
+        imageUrl 
+      }]);
+
+      // Reset the form
+      setNewVariant({ color: '', image: null });
+    } catch (error) {
+      console.error('Error uploading variant image:', error);
+      setError('Failed to upload variant image');
+    }
+  };
+
+  const handleRemoveVariant = (index) => {
+    setColorVariants(colorVariants.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -73,12 +101,20 @@ export default function AddProduct() {
       if (imageFile) {
         imageUrl = await uploadFile(imageFile);
       }
+
+      // Convert color variants to the required format
+      const variantsObject = colorVariants.reduce((acc, variant) => {
+        acc[variant.color] = variant.imageUrl;
+        return acc;
+      }, {});
+
       const productData = {
         name: formData.name,
         price: parseFloat(formData.price),
         description: formData.description,
         quantity: parseInt(formData.quantity, 10),
         image: imageUrl,
+        color_variants: Object.keys(variantsObject).length > 0 ? JSON.stringify(variantsObject) : null
       };
       await createProduct(productData);
       router.replace('/dashboard');
@@ -186,6 +222,53 @@ export default function AddProduct() {
                 </div>
               )}
             </div>
+          </div>
+          <div className={styles.variantsSection}>
+            <h3>Color Variants (Optional)</h3>
+            
+            <div className={styles.addVariant}>
+              <input
+                type="color"
+                value={newVariant.color}
+                onChange={(e) => setNewVariant({ ...newVariant, color: e.target.value })}
+                className={styles.colorInput}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setNewVariant({ ...newVariant, image: e.target.files[0] })}
+                className={styles.fileInput}
+              />
+              <button
+                type="button"
+                onClick={handleAddVariant}
+                className={styles.addButton}
+                disabled={!newVariant.color || !newVariant.image}
+              >
+                Add Variant
+              </button>
+            </div>
+
+            {colorVariants.length > 0 && (
+              <div className={styles.variantsList}>
+                {colorVariants.map((variant, index) => (
+                  <div key={index} className={styles.variantItem}>
+                    <div
+                      className={styles.colorPreview}
+                      style={{ backgroundColor: variant.color }}
+                    />
+                    <span>{variant.color}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveVariant(index)}
+                      className={styles.removeButton}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className={styles.buttonGroup}>
             <button

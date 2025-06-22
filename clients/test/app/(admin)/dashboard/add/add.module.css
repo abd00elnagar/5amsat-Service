@@ -299,3 +299,99 @@
   margin-bottom: 18px;
   text-align: center;
 }
+
+.variantsSection {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.variantsSection h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #1a1a1a;
+}
+
+.addVariant {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.colorInput {
+  width: 50px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fileInput {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background: white;
+}
+
+.addButton {
+  padding: 0.5rem 1rem;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background: #0051b3;
+}
+
+.addButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.variantsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.variantItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.colorPreview {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.removeButton {
+  margin-left: auto;
+  padding: 0.25rem 0.75rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.removeButton:hover {
+  background: #dc2626;
+}

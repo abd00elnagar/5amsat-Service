@@ -7,6 +7,12 @@ import { useState } from 'react';
 
 export default function ProductCard({ product }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Handle both string and object formats for colors
+  const colors = product.colors ? 
+    (typeof product.colors === 'string' ? JSON.parse(product.colors) : product.colors) 
+    : null;
+
   if (!product) return null;
   const isFeatured = product.isNew;
 
@@ -19,13 +25,25 @@ export default function ProductCard({ product }) {
   return (
     <div className={styles.card}>
       {isFeatured && <span className={styles.featuredBadge}>Featured</span>}
-      <div className={styles.imageContainer}>
+      <Link href={`/products/${product.id}`} className={styles.imageContainer}>
         <img
           src={product.image || '/placeholder.png'}
           alt={product.name || 'Product image'}
           className={styles.image}
         />
-      </div>
+        {colors && Object.keys(colors).length > 0 && (
+          <div className={styles.colorDots}>
+            {Object.keys(colors).map((color) => (
+              <div
+                key={color}
+                className={styles.colorDot}
+                style={{ backgroundColor: color }}
+                title={`Available in ${color}`}
+              />
+            ))}
+          </div>
+        )}
+      </Link>
       <div className={styles.content}>
         <h3 className={styles.name}>{product.name || 'Unnamed Product'}</h3>
         {product.description && (

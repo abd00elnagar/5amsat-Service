@@ -1,7 +1,7 @@
 .navbar {
   background-color: #000000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -9,6 +9,8 @@
 
 .container {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 0 1rem;
   display: flex;
   justify-content: space-between;
@@ -25,61 +27,109 @@
 }
 
 .logoImage {
-  height: 40px;
+  height: 36px;
   width: auto;
 }
 
-.links {
+.menuContainer {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 2rem;
-  flex-direction: row-reverse;
 }
 
+/* Desktop Navigation */
+.desktopNav {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Mobile Menu Button */
+.menuButton {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.menuButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menuIcon {
+  transition: transform 0.2s ease;
+}
+
+.menuOpen .menuIcon {
+  transform: rotate(180deg);
+}
+
+/* Navigation Links */
 .navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   text-decoration: none;
   color: #ffffff;
   font-weight: 500;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  font-family: var(--font-cairo);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.navIcon {
+  width: 18px;
+  height: 18px;
+  display: none;
 }
 
 .navLink:hover {
-  color: #ffffff;
-  background-color: #3f3f3f;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .navLink.active {
-  color: #ffffff;
-  background-color: #3f3f3f;
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
+/* Mobile Styles */
 @media (max-width: 640px) {
-  .container {
-    padding: 0.75rem 1rem;
+  .desktopNav {
+    display: none;
   }
 
-  .logo {
-    font-size: 1.2rem;
+  .menuButton {
+    display: flex;
   }
 
-  .logoImage {
-    height: 40px;
+  .mobileNav {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #000000;
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .links {
-    gap: 1rem;
+  .mobileNav .navLink {
+    padding: 10px 12px;
+    font-size: 0.95rem;
   }
 
-  .links a {
-    font-size: 0.9rem;
-  }
-
-  .logoutButton {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
+  .navIcon {
+    display: block;
   }
 }
 

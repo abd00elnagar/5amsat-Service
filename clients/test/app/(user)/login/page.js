@@ -3,7 +3,14 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { config } from '@/lib/config';
 import styles from './login.module.css';
+
+// Generate metadata for the page
+export const metadata = {
+  title: `${config.marketName} | Admin Login`,
+  description: 'Admin login page for managing products and orders.',
+};
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
